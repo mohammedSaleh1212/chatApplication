@@ -80,7 +80,7 @@ return (
 
                     <p>
                         Already have an account?{' '}
-                        <NavLink to="/" >
+                        <NavLink to="/chatApplication" >
                             Sign in
                         </NavLink>
                     </p>

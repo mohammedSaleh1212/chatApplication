@@ -18,7 +18,7 @@ const Home = () => {
   const handleLogOut = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     logOut()
-    navigate('/')
+    navigate('/chatApplication')
   }
   if(!isLoggedIn) return(<Navigate to={'/'}></Navigate>)
   return (

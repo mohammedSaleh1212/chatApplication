@@ -14,7 +14,7 @@ const Login = () => {
      
        login({email:email,password:password})
 
-       navigate('/home')
+       navigate('/chatApplication/home')
     }
  
     return(
@@ -64,7 +64,7 @@ const Login = () => {
                        
                         <p className="text-sm text-white text-center">
                             No account yet? {' '}
-                     <button className="btn btn-primary" onClick={() => navigate('/signup')}>signup</button>
+                     <button className="btn btn-primary" onClick={() => navigate('/chatApplication/signup')}>signup</button>
                         </p>
                                                    
                     </div>
