@@ -10,7 +10,7 @@ import AuthChecker from './components/AuthChecker'
     
      const router = createBrowserRouter([
         
-        {path:'/' , 
+        {path:'/chatApplication' , 
         element:<Layout />,
         errorElement:<ErrorPage /> ,
         children:[
