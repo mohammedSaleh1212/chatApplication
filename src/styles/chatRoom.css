@@ -1,0 +1,16 @@
+
+.message-box {
+padding: .3rem .7rem;
+font-size: 1rem;
+border-radius: 1rem;
+color: white;
+}
+.recieved-message {
+    align-self:flex-end;
+    background: silver;
+}
+.sent-message {
+    align-self: flex-start;
+    background: black;
+}
+
