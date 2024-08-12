@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../AuthStore';
 const CreateUser = () => {
     const signUp = useAuthStore(s => s.signUp)
@@ -10,12 +10,15 @@ const CreateUser = () => {
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
 
-    
+
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-         signUp({ email: email, password: password },name,'photourlfuck')
-        navigate('/')
+
+        signUp({ email: email, password: password }, name, 'photourl')
+
+
+        navigate('/chatApplication')
 
 
     }
@@ -24,71 +27,44 @@ const CreateUser = () => {
 
 
 
-return (
-    <main >
-        <section>
-            <div>
-                <div>
-                    <h1> FocusApp </h1>
-                    <form onSubmit={onSubmit}>
-                        <div>
-                            <label htmlFor="email-address">
-                                Email address
-                            </label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                placeholder="Email address"
-                            />
-                        </div>
+    return (
+        <div className="d-flex justify-content-center align-items-center px-2" style={{ height: '100dvh' }}>
 
-                        <div>
-                            <label htmlFor="password">
-                                Password
-                            </label>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                placeholder="Password"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="name">
-                                name
-                            </label>
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                                placeholder="name"
-                            />
-                        </div>
 
-                        <button
-                            type="submit"
-                          
-                        >
-                            Sign up
-                        </button>
+            <div className='signup-container form-container'>
+                <h1 className='text-center mb-4'>chat App</h1>
 
-                    </form>
 
-                    <p>
-                        Already have an account?{' '}
-                        <NavLink to="/chatApplication" >
-                            Sign in
-                        </NavLink>
-                    </p>
-                </div>
+                <form className='signup-form d-grid' onSubmit={onSubmit}>
+                    <div className="mb-3">
+                        <label htmlFor="exampleInputEmail1" className="form-label">Email Address</label>
+                        <input type="email" className="form-control input" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
+                        <input type="password" className="form-control input" id="exampleInputPassword1" onChange={(e) => setPassword(e.target.value)} />
+                    </div>
+                    <div className="d-flex mb-3">
+                    <label htmlFor="full-name" className="form-label">Full Name</label>
+                    <input type="text" className="form-control input" id="full-name" onChange={(e) => setName(e.target.value)} />
+
+                    </div>
+
+                    <button type="submit" className="btn btn--primary mb-3">Sign up</button>
+                    <div className='no-wrap'>
+                        <span className='me-2'>
+
+                            already have an account
+                        </span>
+
+                        <Link to={'/chatApplication/'}>login</Link>
+
+
+                    </div>
+                </form>
             </div>
-        </section>
-    </main>
-)
+        </div>
+    )
 }
 
 export default CreateUser

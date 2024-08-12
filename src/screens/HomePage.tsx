@@ -1,36 +1,51 @@
 
 
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import useAuthStore from '../AuthStore';
-import ChatRoom from '../components/ChatRoom';
+import Conversations from '../components/Conversations';
+import NavBar from '../components/NavBar';
+import { useState } from 'react';
+import AddConversation from '../components/AddConversation';
 
 
 
 const Home = () => {
   const isLoggedIn = useAuthStore(s => s.isLoggedIn)
-  const user = useAuthStore(s=>s.cuser)
-
-  const logOut = useAuthStore(s => s.logout)
-
-  const navigate = useNavigate()
+  const user = useAuthStore(s => s.cuser)
+  const [clicked, setClicked] = useState(false)
 
 
-  const handleLogOut = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault()
-    logOut()
-    navigate('/chatApplication')
-  }
-  if(!isLoggedIn) return(<Navigate to={'/'}></Navigate>)
-  return (
-    <section>
 
-      <p>home page people</p>
-      <button className="btn btn-primary" onClick={handleLogOut}>sign out</button>
-      <div>{isLoggedIn ? 'yes' : 'false'}</div>
-      <p>hello {user!.displayName}</p>
-      <ChatRoom />
-    </section>
-  )
+
+
+  if (!isLoggedIn) return (<Navigate to={'/'}></Navigate>)
+
+
+
+
+
+  if (!clicked)
+    return (
+
+      <>
+        <NavBar />
+
+        <p>home page </p>
+        <p>hello {user!.displayName}</p>
+
+        <Conversations />
+        <button className="btn btn--primary btn-add-user" onClick={() => setClicked(true)}>add user</button>
+      </>
+    )
+  else
+    return (
+      <div className="p-2">
+<AddConversation onclick={()=> setClicked(false)}/>
+      </div>
+    )
+
+
+
 
 
 

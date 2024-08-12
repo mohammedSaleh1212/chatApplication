@@ -5,7 +5,7 @@ const Layout = () => {
     
 return (
         <>
-            <div className="outlet-container " style={{ paddingTop: '100px' }}>
+            <div className="outlet-container container-fluid p-0" style={{minHeight:'100vh'}}>
                 
                 <Outlet />
             </div>

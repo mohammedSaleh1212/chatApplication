@@ -11,7 +11,7 @@ const AuthChecker = ({ children }: Props) => {
 
   useEffect(() => {
     if (!auth.currentUser) {
-      navigate("/");
+      navigate("/chatApplication/");
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

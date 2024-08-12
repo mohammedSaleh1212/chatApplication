@@ -6,11 +6,11 @@ border-radius: 1rem;
 color: white;
 }
 .recieved-message {
-    align-self:flex-end;
+    align-self:flex-start;
     background: silver;
 }
 .sent-message {
-    align-self: flex-start;
+    align-self: flex-end;
     background: black;
 }
 

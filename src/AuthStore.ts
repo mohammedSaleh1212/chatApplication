@@ -1,7 +1,8 @@
 import { create } from 'zustand'
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from '@firebase/auth'
-import { firebase } from './config'
+import { db, firebase } from './config'
 import { createUserWithEmailAndPassword, signOut,updateProfile,User } from 'firebase/auth'
+import { addDoc, collection } from 'firebase/firestore'
 
 
 interface Credentials {
@@ -56,7 +57,19 @@ const useAuthStore = create<AuthStore>((set) => ({
     const { email, password } = credentials
     await createUserWithEmailAndPassword(auth, email, password)
     
-      .then(userCredentials => updateProfile(userCredentials.user,{displayName:displayName,photoURL:photoURL}))
+      .then(userCredentials => {
+        updateProfile(userCredentials.user,{displayName:displayName,photoURL:photoURL})
+        addDoc(collection(db, "users"), {
+          displayName: displayName,
+          photoURL: photoURL,
+          email: userCredentials.user.email,
+          uid: userCredentials.user.uid 
+        
+        });
+        console.log('done')
+      
+      })
+    
       .catch((e) => {
         set({ loginError: e.message })
       })
@@ -66,6 +79,14 @@ const useAuthStore = create<AuthStore>((set) => ({
       displayName,
       photoURL,
     });
+    await addDoc(collection(db, "users"), {
+      displayName: displayName,
+      photoURL: photoURL,
+      email: currentUser.email,
+      uid: currentUser.uid 
+    
+    });
+    console.log('done')
   }
 }))
 export default useAuthStore

@@ -1,30 +1,44 @@
+import { Link, useNavigate } from "react-router-dom"
+import useAuthStore from "../AuthStore"
+import defaultImage from '../assets/defaultImg.jpeg'
 
 const NavBar = () => {
+  const navigate = useNavigate()
+  const logOut = useAuthStore(s=>s.logout)
+  const user = useAuthStore(s=>s.cuser)
+  const handleLogOut = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    logOut()
+    navigate('/chatApplication')
+  }
   return (
-<nav className="navbar navbar-expand-lg bg-body-tertiary">
+<nav className="navbar  bg-body-tertiary fixed-top">
   <div className="container-fluid">
-    <a className="navbar-brand" href="#">Navbar</a>
-    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span className="navbar-toggler-icon"></span>
-    </button>
+    <div className="account-name navbar-brand d-flex align-items-center gap-2">
+
+    <img src={defaultImage} className="account-image" alt="" />
+    <p className="m-0" >{user?.displayName}</p>
+    </div>
+
+    <i className="border-0 p-0 bi bi-three-dots-vertical fs-2" role="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"></i>
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
         <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="#">Home</a>
+          <Link className="nav-link active" aria-current="page" to={'#'}>Home</Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">Features</a>
+          <Link className="nav-link" to={'#'}>Features</Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">Pricing</a>
+        <button className="btn btn--primary" onClick={handleLogOut}>sign out</button>
         </li>
-        <li className="nav-item">
-          <a className="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li>
+  
       </ul>
     </div>
   </div>
-</nav>  )
+</nav> 
+
+)
 }
 
 export default NavBar

@@ -1,0 +1,19 @@
+.contact {
+    background:#fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom: solid 1px #e6ecf7;
+    padding: 1rem;
+    gap: .5rem;
+}
+.contact:hover {
+    background-color: #e6ecf7 ;
+}
+.contact .contact__name {
+    font-size: 1.3rem;
+    margin: 0;
+}
+.contact__image {
+    width: 2rem;
+}

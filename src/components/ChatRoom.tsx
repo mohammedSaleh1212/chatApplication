@@ -13,7 +13,7 @@ import '../styles/chatRoom.css'
 //   text: string
 //   uid: number
 // }
-const ChatRoom = () => {
+const ChatRoom = () => { 
 
 
 
