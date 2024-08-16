@@ -39,8 +39,8 @@ const Home = () => {
     )
   else
     return (
-      <div className="p-2">
-<AddConversation onclick={()=> setClicked(false)}/>
+      <div className="p-2"> 
+        <AddConversation onclick={() => setClicked(false)} />
       </div>
     )
 

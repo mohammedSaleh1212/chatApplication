@@ -1,5 +1,5 @@
-import { addDoc, collection, doc, limit, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
+import { addDoc, collection, doc, limit, onSnapshot, orderBy, query, serverTimestamp,updateDoc } from 'firebase/firestore'
+import React, { useEffect, useRef, useState } from 'react'
 import { db } from '../config'
 import useAuthStore from '../AuthStore'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -7,16 +7,19 @@ import '../styles/conversation.css'
 import Contact from './Contact'
 
 const Conversation = () => {
-  const { id } = useParams()
+  
+  const { id,name } = useParams()
   const navigate = useNavigate()
-
+  
   const user = useAuthStore(s => s.cuser)
   const [formValue, setFormValue] = useState('')
   const [chatMessages, setChatMessages] = useState<any[]>([])
-
-
+  
+  
   const parentDocRef = doc(collection(db, "conversations"), id);
   const messageRef = collection(parentDocRef, "messages")
+  const dummy = useRef<HTMLDivElement>(null);
+
 
   const handleSendMessage = async (event: React.SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
     event.preventDefault()
@@ -32,9 +35,12 @@ const Conversation = () => {
       name: displayName,
       avatar: photoURL,
       createdAt: serverTimestamp(),
-      uid: uid
+      uid: uid,
     });
-
+    await updateDoc(parentDocRef,{
+      lastMessage: formValue,
+      lastMessageTimestamp: serverTimestamp()
+  });
 
   }
 
@@ -57,13 +63,18 @@ const Conversation = () => {
     });
     return () => unsubscribe;
   }, []);
+  useEffect(() => {
+    if (dummy.current) {
+      dummy.current.scrollIntoView({ behavior: "instant" });
+    }
+  }, [chatMessages]);
 
   return (
     <>
-      <div className="conversation-container ">
+      <div className="conversation-container" style={{paddingBottom:'40px',paddingTop:'100px'}}>
         <div className="fixed-top d-flex align-items-center px-2" style={{ background: 'white' }}>
           <i className="bi bi-arrow-left fs-2 text-black" role='button' onClick={() => navigate('/chatApplication/home')}></i>
-          <Contact id={id!} />
+          <Contact id={id!} name={name} />
         </div>
 
 
@@ -71,6 +82,8 @@ const Conversation = () => {
         <div className="messages-container d-flex flex-column gap-2  mx-2">
 
           {chatMessages && chatMessages.map(cm => <div className={`message-box ${cm.uid === user!.uid ? 'sent-message' : 'recieved-message'}`} key={cm.id}>{cm.text}</div>)}
+          <div ref={dummy} />
+
         </div>
 
         <form className="send-message d-flex  fixed-bottom" onSubmit={handleSendMessage}>

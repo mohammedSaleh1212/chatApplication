@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         children: [
 
             { path: 'signup', element: <CreateUser /> },
-            { path: 'conversation/:id', element: <Conversation /> },
+            { path: 'conversation/:id/:name', element: <Conversation /> },
 
             { path: '', element: <Login /> },
             { path: 'home', element: <AuthChecker><HomePage /></AuthChecker> },

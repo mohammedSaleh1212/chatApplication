@@ -12,12 +12,12 @@ const NavBar = () => {
     navigate('/chatApplication')
   }
   return (
-<nav className="navbar  bg-body-tertiary fixed-top">
+<nav className="navbar   fixed-top">
   <div className="container-fluid">
     <div className="account-name navbar-brand d-flex align-items-center gap-2">
 
     <img src={defaultImage} className="account-image" alt="" />
-    <p className="m-0" >{user?.displayName}</p>
+    <p className="m-0 user-name" >{user?.displayName}</p>
     </div>
 
     <i className="border-0 p-0 bi bi-three-dots-vertical fs-2" role="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"></i>

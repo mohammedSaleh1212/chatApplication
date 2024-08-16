@@ -44,7 +44,7 @@ const CreateUser = () => {
                         <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                         <input type="password" className="form-control input" id="exampleInputPassword1" onChange={(e) => setPassword(e.target.value)} />
                     </div>
-                    <div className="d-flex mb-3">
+                    <div className=" mb-3">
                     <label htmlFor="full-name" className="form-label">Full Name</label>
                     <input type="text" className="form-control input" id="full-name" onChange={(e) => setName(e.target.value)} />
 

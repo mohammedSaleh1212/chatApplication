@@ -43,11 +43,16 @@ const useAuthStore = create<AuthStore>((set) => ({
 
   login: async (credentials: Credentials) => {
     const { email, password } = credentials
-    await signInWithEmailAndPassword(auth, email, password)
+    
 
-      .then(() => console.log(auth.currentUser))
+      return signInWithEmailAndPassword(auth, email, password)
+    
+    .then(() => console.log(auth.currentUser))
+
+    
       .catch((e) => {
         set({ loginError: e.message })
+        throw e
       })
   },
   logout: () => {

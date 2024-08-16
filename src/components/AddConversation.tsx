@@ -9,9 +9,13 @@ interface Props {
 
 const AddConversation = ({onclick}:Props) => {
   const [userId, setUserId] = useState('');//the id of the user we are trying to add 
+  const [isLoading,setIsLoading] = useState(false)
   const user = useAuthStore(s => s.cuser)
   if (!user) return
-  const handleAddUser = async (id:string) => {
+
+
+  const handleAddUser = async (id:string) => { 
+    setIsLoading(true)
 
     try {
       // Fetch the user data from the 'users' collection
@@ -23,6 +27,7 @@ const AddConversation = ({onclick}:Props) => {
         const userData = userDoc.data()
 
         // Add the conversation with the fetched user data
+
         await addDoc(collection(db, "conversations"), {
           initialedBy: user.uid,
           participantIds: [user.uid, id],
@@ -41,12 +46,15 @@ const AddConversation = ({onclick}:Props) => {
             },
           ],
         });
+        
+        
       } else {
         console.error("No such user!");
       }
     } catch (error) {
       console.error("Error adding conversation: ", error);
     }
+    setIsLoading(false)
   };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -74,7 +82,10 @@ const AddConversation = ({onclick}:Props) => {
            placeholder='Enter the user ID...'
            onChange={(e)=> setUserId(e.target.value.toString())}
            />
-          <button type="submit" className='btn btn--primary m-0'>Add</button>
+          <button type="submit" className='btn btn--primary m-0'>
+            {isLoading ?<div className="spinner-border" style={{height:'1rem',width:'1rem', fontSize:'.5rem',marginInline:'8px'}} role="status"></div>:'Add'}
+            
+            </button>
 
         </div>
 
