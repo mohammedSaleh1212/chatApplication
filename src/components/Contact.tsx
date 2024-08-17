@@ -18,7 +18,7 @@ const Contact = ({ id, className, lastMessage,name }: { id: string, className?: 
                     <h2 className='contact__name'>{name}</h2>
 
                 </div>
-                <div className="last-message">{lastMessage}</div>
+                <div className={`last-message`}>{lastMessage}</div>
             </div>
         </>
 
