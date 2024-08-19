@@ -14,7 +14,7 @@
 
 .dropdown.visible {
   opacity: 1;
-  max-height: 11.5rem;
+  max-height: 15.5rem;
   /* Adjust based on your content */
 }
 
@@ -22,7 +22,7 @@
 .dropdown-item {
   padding: .4rem .8rem;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.5rem !important;
 }
 
 .dropdown-item:hover {

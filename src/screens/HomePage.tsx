@@ -11,8 +11,9 @@ import AddConversation from '../components/AddConversation';
 
 const Home = () => {
   const isLoggedIn = useAuthStore(s => s.isLoggedIn)
-  const user = useAuthStore(s => s.cuser)
+  // const user = useAuthStore(s => s.cuser)
   const [clicked, setClicked] = useState(false)
+  const [activePage, setActivePage] = useState<'chats' | 'contacts'>('chats');
 
 
 
@@ -27,21 +28,28 @@ const Home = () => {
   if (!clicked)
     return (
 
-      <>
-        <NavBar />
+      <div style={{paddingTop:'104px'}}>
+        <NavBar setActivePage={setActivePage} activePage={activePage}/>
 
-        <p>home page </p>
-        <p>hello {user!.displayName}</p>
 
-        <Conversations />
-        <button className="btn btn--primary btn-add-user" onClick={() => setClicked(true)}>add user</button>
-      </>
+
+     <Conversations activePage={activePage}/> 
+
+    
+        <button className="btn btn--primary btn-add-user" onClick={() => setClicked(true)}>add contact</button>
+      </div>
     )
   else
     return (
+  <>
+  
       <div className="p-2"> 
         <AddConversation onclick={() => setClicked(false)} />
+        
       </div>
+  
+  </>
+
     )
 
 

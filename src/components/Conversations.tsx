@@ -20,54 +20,12 @@ import Contact from "./Contact";
 
 // }
 
-const Conversations = () => {
+const Conversations = ({activePage}:{activePage:'chats'|'contacts'}) => {
 
     const [conversations, setConversations] = useState<any[]>([])
+    const [chats,setChats] = useState<any[]>([])
     const user = useAuthStore(s => s.cuser)
-    // async function getConversationsByUserId() {
 
-    //     // Check if contacts are in session storage
-
-    //     if (!user) return
-    //     const savedContacts = sessionStorage.getItem(`contacts_${user.uid}`);
-    //     if (savedContacts !== null) {
-    //         setConversations(JSON.parse(savedContacts));
-    //     }
-    //     try {
-    //         const q = query(collection(db, "conversations"), where("participantIds", "array-contains", user.uid));
-    //         const querySnapshot = await getDocs(q);
-
-    //         if (!querySnapshot.empty) {
-    //             querySnapshot.forEach((doc) => {
-    //                 console.log(doc.id, " => ", doc.data());
-    //             });
-    //             const fetchedContacts = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-
-    //             if (JSON.stringify(fetchedContacts) !== savedContacts) {
-    //                 setConversations(fetchedContacts);
-    //                 sessionStorage.setItem(`contacts_${user.uid}`, JSON.stringify(fetchedContacts));
-    //             }
-    //             // Save contacts to session storage
-    //             // sessionStorage.setItem(`contacts_${user.uid}`, JSON.stringify(fetchedContacts));
-    //         } else {
-    //             console.log("No matching documents.");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error getting documents:", error);
-    //     }
-
-
-
-    // }
-    // useEffect(() => {
-    //     getConversationsByUserId()
-
-    // }, [user])
-    
-
-
-
-    ///gpt
 
 
 
@@ -79,13 +37,21 @@ const Conversations = () => {
     if (savedContacts !== null) {
       setConversations(JSON.parse(savedContacts));
     }  
+    const savedChats = sessionStorage.getItem(`chats_${user.uid}`)
+    if (savedChats !== null) {
+      setChats(JSON.parse(savedChats));
+    } 
     
         const q = query(collection(db, "conversations"), where("participantIds", "array-contains", user.uid));
         
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          const fetchedContacts = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+          const fetchedContacts:any[] = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
           setConversations(fetchedContacts);
+          const filteredContacts = fetchedContacts.filter(contact => contact.lastMessage && contact.lastMessage.trim() !== '');
+          setChats(filteredContacts)
+
           sessionStorage.setItem(`contacts_${user.uid}`, JSON.stringify(fetchedContacts));
+          sessionStorage.setItem(`chats_${user.uid}`, JSON.stringify(filteredContacts));
         }, (error) => {
           console.error("Error getting documents:", error);
         });
@@ -97,10 +63,31 @@ const Conversations = () => {
 //end gpt
 
 
-    return (
+if(activePage==='contacts')
+   return  (
+
 
 <div className="contacts">
-  {conversations?.map(({ id, lastMessage, participantIds, participants }) => {
+  {conversations?.map(({ id,  participantIds, participants }) => {
+    const name = participantIds[0] === user?.uid ? participants[1].displayName : participants[0].displayName;
+    return (
+      <Contact
+        key={id}
+        id={id}
+        name={name}
+      />
+    )
+  })}
+</div>
+
+
+
+
+    )
+    else return(
+
+<div className="chats">
+  {chats?.map(({ id, lastMessage, participantIds, participants }) => {
     const name = participantIds[0] === user?.uid ? participants[1].displayName : participants[0].displayName;
     return (
       <Contact
@@ -109,13 +96,11 @@ const Conversations = () => {
         lastMessage={lastMessage}
         name={name}
       />
-    );
+    )
   })}
 </div>
 
-
-
-
+      
     )
 }
 
